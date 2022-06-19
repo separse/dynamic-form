@@ -1,0 +1,53 @@
+<div class="form-group row" [formGroup]="form">
+  <label class="col-md-3 form-control-label" [attr.for]="field.label">
+    {{ field.label }}
+    <strong class="text-danger" *ngIf="field.validators?.includes('required')">*</strong>
+  </label>
+  <div class="col-md-9" [ngSwitch]="field.type">
+    <!-- text  -->
+    <div *ngSwitchCase="'text'">
+      <input 
+        *ngIf="!field.multiline" [attr.type]="field.type" class="form-control"  [id]="field.name" 
+        [name]="field.name" [formControlName]="field.name" [placeholder]="field.placeholder"
+      >
+      <textarea 
+        *ngIf="field.multiline" [class.is-invalid]="isDirty && !isValid" [formControlName]="field.name" [id]="field.name"
+        rows="9" class="form-control" [placeholder]="field.placeholder" [placeholder]="field.placeholder"
+      ></textarea>
+    </div>
+    <!-- number  -->
+    <div *ngSwitchCase="'number'">
+      <input [type]="field.type" class="form-control" [id]="field.name" [name]="field.name" [formControlName]="field.name" [placeholder]="field.placeholder">
+    </div>
+    <!-- date  -->
+    <div *ngSwitchCase="'date'">
+      <input [type]="field.type" class="form-control" [id]="field.name" [name]="field.name" [formControlName]="field.name" [placeholder]="field.placeholder">
+    </div>
+    <!-- dropdown  -->
+    <div *ngSwitchCase="'dropdown'">
+      <select class="form-control" [id]="field.name" [formControlName]="field.name">
+        <option value="" disabled selected>select a country</option>
+        <option *ngFor="let opt of field.options" [value]="opt.key">{{opt.label}}</option>
+      </select>
+    </div>
+    <!-- checkbox  -->
+    <div *ngSwitchCase="'checkbox'">     
+      <div [formGroupName]="field.name" >
+        <div *ngFor="let opt of field.options" class="form-check form-check">
+        <label class="form-check-label">
+          <input [formControlName]="opt.key" class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
+          {{opt.label}}
+        </label>
+        </div>
+      </div>
+    </div>
+    <!-- radio  -->
+    <div *ngSwitchCase="'radio'">
+      <div class="form-check" *ngFor="let opt of field.options">
+        <input class="form-check-input" type="radio" [value]="opt.key" [name]="field.name" [formControlName]="field.name">
+        <label class="form-check-label">{{opt.label}}</label>
+      </div> 
+    </div>
+    <div class="alert alert-danger my-1 p-2 fadeInDown animated" *ngIf="!isValid && isDirty">{{field.label}} should be filled or it's value is not</div>
+  </div>
+</div>

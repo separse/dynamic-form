@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: '<app-first-form></app-first-form>',
 })
-export class AppComponent {
-  title = 'dynamic-form';
-}
+export class AppComponent { }
